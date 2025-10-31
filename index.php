@@ -6,7 +6,7 @@
     <title>Document</title>
 </head>
 <body>
-<form action="processar.php" method="POST" enctype="multipart/form-data">
+<form action="upload.php" method="POST" enctype="multipart/form-data">
   <input type="file" name="arquivo" />
   <button type="submit">Enviar</button>
 </form>

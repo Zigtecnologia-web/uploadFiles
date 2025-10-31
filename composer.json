@@ -1,7 +1,14 @@
 {
     "name": "zigtecnologia/upload",
-    "description": "Classe simples para upload de arquivos em PHP",
+    "description": "A class for handling file uploads using PHP.",
     "type": "library",
+    "authors": [
+      {
+        "name": "Valdiney França",
+        "email": "valdineyweb@gmail.com",
+        "role": "Developer"
+      }
+    ],
     "autoload": {
       "psr-4": {
         "Zigtecnologia\\Upload\\": "src/"
