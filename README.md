@@ -36,6 +36,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 ```
 
 ## Using the Upload Facade (Fluent API)
+```php
 require 'vendor/autoload.php';
 
 use Zigtecnologia\Upload\Facades\Upload;
