@@ -19,20 +19,15 @@ require 'vendor/autoload.php';
 
 use Zigtecnologia\Upload\Services\UploadFiles;
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    if (!isset($_FILES['arquivo'])) {
-        die('No file uploaded. Check the field name="arquivo".');
-    }
+$upload = new UploadFiles(['jpg', 'png', 'pdf'], 5);
 
-    $upload = new UploadFiles(['jpg', 'png', 'pdf'], 5);
-
-    try {
-        $path = $upload->upload($_FILES['arquivo'], 'uploads');
-        echo "Saved in: {$path}";
-    } catch (Exception $e) {
-        echo "Erro: " . $e->getMessage();
-    }
+try {
+    $path = $upload->upload($_FILES['arquivo'], 'uploads');
+    echo "Saved in: {$path}";
+} catch (Exception $e) {
+    echo "Erro: " . $e->getMessage();
 }
+
 ```
 
 ## Using the Upload Facade (Fluent API)
