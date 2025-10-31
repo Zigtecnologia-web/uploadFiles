@@ -13,11 +13,11 @@ A class for handling file uploads using PHP
 composer require zigtecnologia/upload
 ```
 
-## Usage 
+## Using UploadFiles directly
 ```php
 require 'vendor/autoload.php';
 
-use Zigtecnologia\Upload\UploadFiles;
+use Zigtecnologia\Upload\Services\UploadFiles;
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (!isset($_FILES['arquivo'])) {
@@ -32,5 +32,23 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     } catch (Exception $e) {
         echo "Erro: " . $e->getMessage();
     }
+}
+```
+
+## Using the Upload Facade (Fluent API)
+require 'vendor/autoload.php';
+
+use Zigtecnologia\Upload\Facades\Upload;
+
+try {
+    $result = Upload::make()
+        ->extensions(['jpg', 'png', 'pdf'])
+        ->maxSize(10)
+        ->folder('docs')
+        ->upload($_FILES['arquivo']);
+
+    echo $result;
+} catch (Exception $e) {
+    echo "Erro: " . $e->getMessage();
 }
 ```

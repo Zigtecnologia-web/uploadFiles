@@ -1,19 +1,16 @@
 <?php
 require 'vendor/autoload.php';
 
-use Zigtecnologia\Upload\UploadFiles;
+use Zigtecnologia\Upload\Facades\Upload;
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    if (!isset($_FILES['arquivo'])) {
-        die('Nenhum arquivo enviado. Verifique o campo name="arquivo".');
-    }
+try {
+    $result = Upload::make()
+        ->extensions(['jpg', 'png', 'pdf'])
+        ->maxSize(10)
+        ->folder('docs')
+        ->upload($_FILES['arquivo']);
 
-    $upload = new UploadFiles(['jpg', 'png', 'pdf'], 5);
-
-    try {
-        $path = $upload->upload($_FILES['arquivo'], 'uploads');
-        echo "Arquivo salvo em: {$path}";
-    } catch (Exception $e) {
-        echo "Erro: " . $e->getMessage();
-    }
+    echo $result;
+} catch (Exception $e) {
+    echo "Erro: " . $e->getMessage();
 }

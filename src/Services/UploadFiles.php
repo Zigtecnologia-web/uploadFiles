@@ -1,5 +1,5 @@
 <?php
-namespace Zigtecnologia\Upload;
+namespace Zigtecnologia\upload\Services;
 
 use Zigtecnologia\Upload\Services\FileValidator;
 use Zigtecnologia\Upload\Services\FileNamer;
