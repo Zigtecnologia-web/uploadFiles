@@ -14,6 +14,7 @@ A class for handling file uploads using PHP.
 ## 🧩 Installation
 ```bash
 composer require zigtecnologia/upload
+```
 
 ## Usage 
 ```php
