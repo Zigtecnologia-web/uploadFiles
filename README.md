@@ -1,9 +1,6 @@
 # uploadFiles
 A class for handling file uploads using PHP
 
-# uploadFiles
-A class for handling file uploads using PHP.
-
 ## 🚀 Features
 - Validate file size and extension  
 - Define allowed extensions  
