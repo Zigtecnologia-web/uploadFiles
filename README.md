@@ -17,7 +17,6 @@ composer require zigtecnologia/upload
 
 ## Usage 
 ```php
-<?php
 require 'vendor/autoload.php';
 
 use Zigtecnologia\Upload\UploadFiles;

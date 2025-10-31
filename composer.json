@@ -2,6 +2,7 @@
     "name": "zigtecnologia/upload",
     "description": "A class for handling file uploads using PHP.",
     "type": "library",
+    "license": "MIT",
     "authors": [
       {
         "name": "Valdiney França",
