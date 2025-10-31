@@ -19,7 +19,7 @@ require 'vendor/autoload.php';
 
 use Zigtecnologia\Upload\Services\UploadFiles;
 
-$upload = new UploadFiles(['jpg', 'png', 'pdf'], 5);
+$upload = new UploadFiles(['jpg', 'png', 'pdf'], 10);
 
 try {
     $path = $upload->upload($_FILES['arquivo'], 'uploads');
@@ -37,13 +37,13 @@ require 'vendor/autoload.php';
 use Zigtecnologia\Upload\Facades\Upload;
 
 try {
-    $result = Upload::make()
+    $path = Upload::make()
         ->extensions(['jpg', 'png', 'pdf'])
         ->maxSize(10)
-        ->folder('docs')
+        ->folder('uploads')
         ->upload($_FILES['arquivo']);
 
-    echo $result;
+    echo "Saved in: {$path}";
 } catch (Exception $e) {
     echo "Erro: " . $e->getMessage();
 }
