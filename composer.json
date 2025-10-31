@@ -1,0 +1,14 @@
+{
+    "name": "zigtecnologia/upload",
+    "description": "Classe simples para upload de arquivos em PHP",
+    "type": "library",
+    "autoload": {
+      "psr-4": {
+        "Zigtecnologia\\Upload\\": "src/"
+      }
+    },
+    "require": {
+      "php": ">=8.1"
+    }
+  }
+  
