@@ -13,21 +13,9 @@ A class for handling file uploads using PHP
 composer require zigtecnologia/upload
 ```
 
-## Using UploadFiles directly
+## To run unit tests with Pest, execute
 ```php
-require 'vendor/autoload.php';
-
-use Zigtecnologia\Upload\Services\UploadFiles;
-
-$upload = new UploadFiles(['jpg', 'png', 'pdf'], 10);
-
-try {
-    $path = $upload->upload($_FILES['arquivo'], 'uploads');
-    echo "Saved in: {$path}";
-} catch (Exception $e) {
-    echo "Erro: " . $e->getMessage();
-}
-
+./vendor/bin/pest
 ```
 
 ## Using the Upload Facade (Fluent API)

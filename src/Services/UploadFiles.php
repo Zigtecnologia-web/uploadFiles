@@ -13,12 +13,13 @@ class UploadFiles
     private FileStorage $storage;
 
     public function __construct(
-        array $extensions = [],
-        int $maxSizeMB = 2
+        FileValidator $validator,
+        FileNamer $namer,
+        FileStorage $storage
     ) {
-        $this->validator = new FileValidator($extensions, $maxSizeMB);
-        $this->namer = new FileNamer();
-        $this->storage = new FileStorage();
+        $this->validator = $validator;
+        $this->namer = $namer;
+        $this->storage = $storage;
     }
 
     public function upload(array $file, string $folder): string

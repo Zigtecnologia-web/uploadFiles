@@ -1,12 +1,13 @@
 <?php
-
 namespace Zigtecnologia\Upload\Facades;
 
 use Zigtecnologia\Upload\Services\UploadFiles;
+use Zigtecnologia\Upload\Services\FileValidator;
+use Zigtecnologia\Upload\Services\FileNamer;
+use Zigtecnologia\Upload\Services\FileStorage;
 
 class Upload
 {
-    private UploadFiles $uploader;
     private array $extensions = [];
     private int $maxSizeMB = 5;
     private string $folder = 'uploads';
@@ -34,9 +35,14 @@ class Upload
         return $this;
     }
 
-    public function upload(mixed $file): mixed
+    public function upload(array $file): string
     {
-        $this->uploader = new UploadFiles($this->extensions, $this->maxSizeMB);
-        return $this->uploader->upload($file, $this->folder);
+        $validator = new FileValidator($this->extensions, $this->maxSizeMB);
+        $namer = new FileNamer();
+        $storage = new FileStorage();
+
+        $uploader = new UploadFiles($validator, $namer, $storage);
+
+        return $uploader->upload($file, $this->folder);
     }
 }
