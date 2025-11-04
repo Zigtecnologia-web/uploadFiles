@@ -7,4 +7,5 @@ enum UploadErrorEnum: int
     case FILE_TOO_LARGE = 2;
     case UNKNOWN_EXTENSION = 3;
     case SAVE_FAILED = 4;
+    case INVALID_MIMETYPE = 5;
 }

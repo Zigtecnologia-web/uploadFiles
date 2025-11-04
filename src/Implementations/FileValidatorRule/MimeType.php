@@ -18,13 +18,12 @@ class MimeType implements FileValidatorRule
         $finfo = new finfo(FILEINFO_MIME_TYPE);
         $mimeType = $finfo->file($file['tmp_name']) ?: '';
 
-        if (!preg_match('/(\w+)\/(\w+)/', $mimeType, $matches)) {
+        if (empty($mimeType)) {
             return UploadErrorEnum::UNKNOWN_EXTENSION;
         }
 
-        $ext = strtolower($matches[2]);
-        if (!in_array($ext, $this->allowedMimeTypes, true)) {
-            return UploadErrorEnum::INVALID_EXTENSION;
+        if (!in_array($mimeType, $this->allowedMimeTypes, true)) {
+            return UploadErrorEnum::INVALID_MIMETYPE;
         }
 
         return null;
