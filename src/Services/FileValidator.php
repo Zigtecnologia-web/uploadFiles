@@ -8,9 +8,24 @@ class FileValidator
 {
     private array $validatorQueue = [];
 
-    public function addToQueue(FileValidatorRule $rule): void
+    public function addToQueue(FileValidatorRule $rule): self
     {
-        $this->validatorQueue[] = $rule;
+        $ruleClass = get_class($rule);
+        if (isset($this->validatorQueue[$ruleClass])) {
+            throw new \InvalidArgumentException(
+                "A validation rule of type '{$ruleClass}' has already been added to the queue."
+            );
+        }
+        $this->validatorQueue[$ruleClass] = $rule;
+
+        return $this;
+    }
+
+    public function clearQueue(): self
+    {
+        $this->validatorQueue = [];
+
+        return $this;
     }
 
     public function validate(array $file): ?UploadErrorEnum

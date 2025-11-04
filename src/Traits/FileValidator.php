@@ -31,4 +31,11 @@ trait FileValidator
 
         return $this->fileValidator;
     }
+
+    public function clearValidator(int $maxSizeMB): static
+    {
+        $this->getFileValidator()->clearQueue();
+
+        return $this;
+    }
 }
