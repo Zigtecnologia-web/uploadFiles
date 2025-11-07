@@ -6,7 +6,7 @@
     <title>Document</title>
     <style>
       body {
-        background: pink;
+        background: green;
       }
     </style>
 </head>
