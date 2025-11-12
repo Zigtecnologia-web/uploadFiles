@@ -1,40 +1,40 @@
 <?php
 namespace Zigtecnologia\Upload\Services;
 
-use finfo;
-use Zigtecnologia\Upload\Enums\UploadErrorEnum as UploadError;
+use Zigtecnologia\Upload\Enums\UploadErrorEnum;
+use Zigtecnologia\Upload\Interfaces\FileValidatorRule;
 
 class FileValidator
 {
-    public function __construct(
-        private array $allowedExtensions = [],
-        private int $maxSizeMB = 2
-    ) {}
+    private array $validatorQueue = [];
 
-    public function validate(array $file): ?UploadError
+    public function addToQueue(FileValidatorRule $rule): self
     {
-        $maxBytes = 1024 * 1024 * $this->maxSizeMB;
-
-        if ($file['size'] > $maxBytes) {
-            return UploadError::FILE_TOO_LARGE;
+        $ruleClass = get_class($rule);
+        if (isset($this->validatorQueue[$ruleClass])) {
+            throw new \InvalidArgumentException(
+                "A validation rule of type '{$ruleClass}' has already been added to the queue."
+            );
         }
+        $this->validatorQueue[$ruleClass] = $rule;
 
-        $finfo = new finfo(FILEINFO_MIME_TYPE);
+        return $this;
+    }
 
-        if (empty($file['tmp_name']) || !file_exists($file['tmp_name'])) {
-            return UploadError::UNKNOWN_EXTENSION;
-        }
+    public function clearQueue(): self
+    {
+        $this->validatorQueue = [];
 
-        $mimeType = $finfo->file($file['tmp_name']) ?: '';
+        return $this;
+    }
 
-        if (!preg_match('/(\w+)\/(\w+)/', $mimeType, $matches)) {
-            return UploadError::UNKNOWN_EXTENSION;
-        }
-
-        $ext = strtolower($matches[2]);
-
-        if (!in_array($ext, $this->allowedExtensions, true)) {
-            return UploadError::INVALID_EXTENSION;
+    public function validate(array $file): ?UploadErrorEnum
+    {
+        foreach ($this->validatorQueue as $rule) {
+            $error = $rule->validate($file);
+            if ($error !== null) {
+                return $error;
+            }
         }
 
         return null;

@@ -2,19 +2,19 @@
 
 use Zigtecnologia\Upload\Services\FileValidator;
 use Zigtecnologia\Upload\Enums\UploadErrorEnum as UploadError;
+use Zigtecnologia\Upload\Implementations\FileValidatorRule\MaxSizeMB;
+use Zigtecnologia\Upload\Implementations\FileValidatorRule\MimeType;
 
 beforeEach(function () {
     // Apenas extensões permitidas, mas não vamos testar MIME real
-    $this->validator = new FileValidator(
-        allowedExtensions: ['jpg','jpeg','png','txt'],
-        maxSizeMB: 1
-    );
+    $this->validator = new FileValidator();
 
     $this->tmpDir = sys_get_temp_dir() . '/filevalidator_test';
     if (!is_dir($this->tmpDir)) mkdir($this->tmpDir, 0777, true);
 });
 
 afterEach(function () {
+    $this->validator = new FileValidator();
     foreach (glob($this->tmpDir . '/*') as $f) {
         if (is_file($f)) unlink($f);
     }
@@ -22,6 +22,7 @@ afterEach(function () {
 });
 
 it('fails validation for too large file', function () {
+    $this->validator->addToQueue(new MaxSizeMB(1));
     $tmpFile = $this->tmpDir . '/large.txt';
     file_put_contents($tmpFile, str_repeat('a', 2 * 1024 * 1024)); // 2 MB
 
@@ -34,6 +35,7 @@ it('fails validation for too large file', function () {
 });
 
 it('fails validation for missing tmp_name', function () {
+    $this->validator->addToQueue(new MimeType(['jpg','jpeg','png','txt']));
     $file = [
         'tmp_name' => '',
         'size' => 1024,
@@ -43,6 +45,7 @@ it('fails validation for missing tmp_name', function () {
 });
 
 it('fails validation for non-existent tmp file', function () {
+    $this->validator->addToQueue(new MimeType(['jpg','jpeg','png','txt']));
     $file = [
         'tmp_name' => '/nonexistent/file.tmp',
         'size' => 1024,
